@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>Customer Phone Exercise</title>
+    <script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/customers/list}]]";
+    }
+     </script>
+</head>
+<body>
+<div class="container">
+	<form th:action="@{/customers/filter}">
+	    Filter By Country Name and State : <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
+	    &nbsp;
+	    <label>
+            <input type="checkbox" name="flag" id="flag" th:checked="${flag}"/> Valid State
+        </label>
+        &nbsp;
+         <label>
+            <input type="checkbox" name="flag2" id="flag2" th:checked="${flag2}"/> not Valid State
+        </label>
+	    <input type="submit" value="Search" />
+	    &nbsp;
+	    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+	</form>
+	<br></br>
+              <h3>Listing Customer Phone Number</h3>
+              <hr>
+              <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                            <th>phone</th>
+                            <th>Country</th>
+                            <th>State</th>
+                            <th>CountryCode</th>
+                            <th>number in Digits</th>
+                        </tr>
+                    </thead>                       
+                             <tbody>
+                                           <tr th:each="temp : ${FinalEnity}">
+                                                          <td th:text="${temp.id}" />             
+                                                          <td th:text="${temp.name}" />             
+                                                          <td th:text="${temp.phone}" /> 
+                                                          <td th:text="${temp.country}" /> 
+                                                          <td th:text="${temp.state}" />                                                         
+                                                          <td th:text="${temp.CountryCode}" /> 
+                                                          <td th:text="${temp.number}" />                                                                                                   
+                                           </tr>
+                             </tbody>                         
+              </table> 
+              
+           <div class="container" >
+              <th:block th:if="${Pagination == 'true'}">
+				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+				    <a th:if="${currentPage != i}" th:href="@{'/customers/list/page/' + ${i}}"> [[${i}]]</a>				   
+				    <span th:unless="${currentPage != i}">[[${i}]]</span>
+				    &nbsp;
+				</span>
+				</th:block>
+			</div>
+
+    
+</div>
+</body>
+</html>
